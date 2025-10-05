@@ -31,7 +31,7 @@ const htmlContent = `
 
 <label for="chapterSelect">Choisir un chapitre :</label>
 <select id="chapterSelect">
-  <option value="1">1</option>
+  <option value="5">5</option>
 </select>
 
 <div id="content"></div>
@@ -124,3 +124,4 @@ console.log('2. npm init -y');
 console.log('3. npm install express');
 console.log('4. node server.js');
 console.log('Ensuite ouvre http://localhost:3000 dans ton navigateur.');
+
