@@ -1,145 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DPI-SK Bukavu</title>
-
-<!-- Manifest pour PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#008080">
-
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #33CCCC;
-    position: relative;
-}
-body::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(135deg, #ff0000 0%, #ff0000 15%, transparent 15%, transparent 100%);
-    z-index: 0;
-}
-.star {
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    width: 100px;
-    height: 100px;
-    background: yellow;
-    clip-path: polygon(
-        50% 0%, 61% 35%, 98% 35%, 
-        68% 57%, 79% 91%, 50% 70%, 
-        21% 91%, 32% 57%, 2% 35%, 
-        39% 35%
-    );
-    z-index: 1;
-}
-.login-container {
-    z-index: 2;
-    background-color: rgba(255,255,255,0.95);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    text-align: center;
-    width: 350px;
-}
-h2 {
-    margin-bottom: 20px;
-    font-size: 18px;
-    color: #000;
-}
-input[type="text"], input[type="password"] {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-button {
-    width: 95%;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #0056b3;
-}
-.footer-text {
-    font-size: 12px;
-    margin-top: 10px;
-    color: #333;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messagerie Locale</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="star"></div>
-
-<div class="login-container">
-    <h2>
-        MINISTERE DES FINANCES<br>
-        DIRECTION GENERALE DES IMPOTS<br>
-        DIRECTION PROVINCIALE DU SUD-KIVU<br>
-        DPI-SK Cristal BUKAVU FC - Acces 2024 2.0 du 17/06/2025
-    </h2>
-
-    <form id="loginForm">
-        <input type="text" id="username" placeholder="Votre Code" required><br>
-        <input type="password" id="password" placeholder="Mot de Passe" required><br>
-        <button type="submit">Menu</button>
-        <button type="button" onclick="alert('Abandon');">Abandon</button>
-    </form>
-
-    <div class="footer-text">
-        Bienvenue à l'application DPI-SK, BUKAVU
+  <div id="app">
+    <div class="sidebar">
+      <h2>Liste des Utilisateurs</h2>
+      <ul id="users"></ul>
     </div>
-</div>
+    <div class="chat-container">
+      <div class="messages" id="messages"></div>
+      <div class="input-container">
+        <input id="messageInput" type="text" placeholder="Écris ton message...">
+        <button id="sendBtn">Envoyer</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-document.getElementById('loginForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    const user = document.getElementById('username').value;
-    const pass = document.getElementById('password').value;
+  <!-- Pop-up Appel -->
+  <div id="callPopup" class="hidden">
+    <p id="callerName"></p>
+    <button id="acceptCall">📞 Accepter</button>
+    <button id="rejectCall">❌ Rejeter</button>
+  </div>
 
-    // Identifiants
-    const comptes = [
-        {user:"admin", pass:"admin"},
-        {user:"gestionnaire1", pass:"1234"},
-        {user:"gestionnaire2", pass:"5678"}
-    ];
+  <!-- Zone vidéo -->
+  <div id="videoContainer" class="hidden">
+    <video id="myVideo" autoplay muted></video>
+    <video id="userVideo" autoplay></video>
+    <button id="endCall">🚫 Terminer l'appel</button>
+  </div>
 
-    const valide = comptes.find(c=>c.user===user && c.pass===pass);
-    if(valide){
-        alert("Connexion réussie !");
-        localStorage.setItem("gestionnaire", user);
-        window.location.href="choix_structure.html";
-    } else {
-        alert("Code ou mot de passe incorrect !");
-    }
-});
-
-// Service Worker pour PWA
-if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('service-worker.js')
-    .then(()=>console.log('Service Worker enregistré !'))
-    .catch(err=>console.log('Erreur SW:', err));
-}
-</script>
-
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-peer@9/simplepeer.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
