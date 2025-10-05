@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>🌟 Calculatrice Magique 🌟</title>
+<style>
+/* Corps de la page */
+body {
+  font-family: Arial, sans-serif;
+  background: radial-gradient(#4a007d, #000);
+  color: #ffe0ff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;      /* étire sur toute la largeur */
+  justify-content: flex-start; /* commence depuis le haut */
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Titre */
+h1 {
+  font-size: 2.5em;
+  margin: 1em;
+  text-align: center;
+  text-shadow: 0px 0px 25px #ff00ff;
+}
+
+/* Container principal */
+.container {
+  background: rgba(30,0,60,0.9);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: left;
+  width: 100%;
+  max-width: 100%;
+  height: calc(100vh - 100px); /* prend toute la hauteur disponible */
+  box-sizing: border-box;
+  box-shadow: 0px 0px 25px #ff00ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Labels */
+label {
+  font-size: 1em;
+  margin: 5px 0 2px;
+  display: block;
+}
+
+/* Inputs, selects et boutons */
+select, input, button {
+  padding: 10px;
+  margin: 5px 0 15px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1em;
+  width: 100%; /* plein écran horizontal */
+  box-sizing: border-box;
+}
+
+/* Boutons */
+button {
+  background: #ff6600;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  background: #ff8533;
+}
+
+/* Résultats */
+#results {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1em 0;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease, text-shadow 1s ease;
+}
+#results.show {
+  opacity: 1;
+  text-shadow: 0px 0px 20px #ffff00;
+}
+
+/* Loader */
+.loading {
+  display: none;
+  text-align: center;
+  margin: 1em 0;
+}
+.spinner {
+  border: 4px solid #fff;
+  border-radius: 50%;
+  border-top: 4px solid #ff00ff;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<h1 id="title">🌟 Calculatrice Magique 🌟</h1>
+
+<div class="container">
+  <select id="language">
+    <option value="fr">Francais</option>
+    <option value="en">English</option>
+    <option value="rw">Kinyarwanda</option>
+  </select>
+
+  <label id="birthLabel">Date de Naissance :</label>
+  <input id="birthDate" type="date">
+
+  <label id="momentLabel">Date du Moment :</label>
+  <input id="currentDate" type="date">
+
+  <label id="timeLabel">Heure :</label>
+  <input id="currentTime" type="time">
+
+  <button id="revealButton">Révélé</button>
+  <div id="results"></div>
+
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <p id="loadingText">Calcul en cours...</p>
+  </div>
+</div>
+
+<script>
+const labels = {
+  fr: { title:"🌟 Calculatrice Magique 🌟", birthLabel:"Date de Naissance :", momentLabel:"Date du Moment :", timeLabel:"Heure :", loadingText:"Calcul en cours...", errorEmpty:"⚠️ Veuillez remplir tous les champs.", errorSame:"⚠️ Les entrées ne peuvent pas toutes être identiques." },
+  en: { title:"🌟 Magic Calculator 🌟", birthLabel:"Birth Date :", momentLabel:"Current Date :", timeLabel:"Time :", loadingText:"Calculating...", errorEmpty:"⚠️ Please fill in all fields.", errorSame:"⚠️ All inputs cannot be identical." },
+  rw: { title:"🌟 Imashini y'Ibanga 🌟", birthLabel:"Itariki yo Kuvuka :", momentLabel:"Itariki y'Umwanya :", timeLabel:"Isaha :", loadingText:"Irimo kubara...", errorEmpty:"⚠️ Nyamuneka uzuze imyanya yose.", errorSame:"⚠️ Ibyinjijwe ntibishobora kuba bimwe." }
+};
+
+const responses = {
+  fr: ["surprise","conflit","aide","malaise","joie","stress","favorable","nouvelle ","fin d'une situation"],
+  en: ["surprise","conflict","help","discomfort","joy","stress","favorable","new consideration","end of a situation"],
+  rw: ["gitangaza","amakimbirane ","ubufasha","umubabaro","ibyishimo","igitutu","igihe cyiza","izina rishya","iherezo ry'igihe"]
+};
+
+function updateLanguage(){
+  const lang = document.getElementById("language").value;
+  document.getElementById("title").textContent = labels[lang].title;
+  document.getElementById("birthLabel").textContent = labels[lang].birthLabel;
+  document.getElementById("momentLabel").textContent = labels[lang].momentLabel;
+  document.getElementById("timeLabel").textContent = labels[lang].timeLabel;
+  document.getElementById("loadingText").textContent = labels[lang].loadingText;
+}
+
+function revealResult(){
+  const lang = document.getElementById("language").value;
+  const bd = document.getElementById("birthDate").value;
+  const cd = document.getElementById("currentDate").value;
+  const ct = document.getElementById("currentTime").value;
+  const resultsEl = document.getElementById("results");
+  resultsEl.classList.remove("show");
+
+  if(!bd || !cd || !ct){
+    resultsEl.textContent = labels[lang].errorEmpty;
+    resultsEl.classList.add("show");
+    return;
+  }
+  if(bd===cd && cd===ct){
+    resultsEl.textContent = labels[lang].errorSame;
+    resultsEl.classList.add("show");
+    return;
+  }
+
+  const loader = document.getElementById("loading");
+  loader.style.display = "block";
+  resultsEl.textContent = "";
+
+  setTimeout(()=>{
+    loader.style.display = "none";
+    let hashSum = 0;
+    const combined = bd+cd+ct;
+    for(let i=0;i<combined.length;i++) hashSum += combined.charCodeAt(i);
+    hashSum = hashSum % responses[lang].length;
+    resultsEl.textContent = responses[lang][hashSum];
+    resultsEl.classList.add("show");
+  },1000);
+}
+
+document.getElementById("revealButton").addEventListener("click",revealResult);
+document.getElementById("language").addEventListener("change",updateLanguage);
+updateLanguage();
+</script>
+
+</body>
+</html>
