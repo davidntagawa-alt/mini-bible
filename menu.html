@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPI-SK - Menu</title>
+<script src="data.js"></script>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #008080;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+.menu-container {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    width: 400px;
+}
+h2 {
+    text-align: center;
+    color: green;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.menu button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #33CCCC;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+}
+.menu button:hover {
+    background-color: #009999;
+    color: white;
+}
+#listeContribuables {
+    display: none;
+    margin-top: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+#listeContribuables table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#listeContribuables th, #listeContribuables td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="menu-container">
+    <h2>MENU PRINCIPAL</h2>
+    <div class="menu">
+        <button onclick="toggleContribuables()">Contribuables</button>
+        <button>Répertoires Sectoriels</button>
+        <button>Fiches de Renseignements</button>
+        <button>Etat Civil des Dirigeants</button>
+        <button>Domiciles</button>
+        <button>Etablissements</button>
+        <button>Mouvements</button>
+        <button>Comptes Bancaires</button>
+        <button>Impression des Listes</button>
+        <button>Demandes d'Immatriculation</button>
+        <button>Saisie de Recoupement</button>
+        <button>Menu Attestation de Gestion</button>
+        <button>Menu Gestion des Exonérations</button>
+        <button>Documents Annexes Bénéf/Prof</button>
+        <button onclick="window.location.href='index.html'">Fin</button>
+    </div>
+
+    <!-- Liste des contribuables -->
+    <div id="listeContribuables">
+        <h3>Liste des Contribuables</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Nom</th>
+                    <th>État</th>
+                    <th>Dette</th>
+                    <th>Payé</th>
+                    <th>Solde</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyContribuables"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// Gestionnaires
+const gestionnaireConnecte = localStorage.getItem("gestionnaire") || "admin1";
+
+// Filtrer les contribuables du gestionnaire
+const mesContribuables = ()=>contribuables.filter(c=>c.gestionnaire===gestionnaireConnecte);
+
+// Calculer le solde
+function calculSolde(c){
+    let solde = c.dette - c.paye;
+    const dateBase = c.dateFin ? new Date(c.dateFin) : new Date(c.dateDebut);
+    const today = new Date();
+    const diffTime = today - dateBase;
+    const diffDays = Math.floor(diffTime / (1000*60*60*24));
+    solde += solde * c.tauxJournalier * diffDays;
+    return solde.toFixed(2);
+}
+
+
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Toggle affichage
+function toggleContribuables(){
+    const div = document.getElementById("listeContribuables");
+    if(div.style.display==="none"){
+        afficherContribuables();
+        div.style.display="block";
+    } else {
+        div.style.display="none";
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Structure</title>
+<style>
+body { font-family: Arial; display:flex; justify-content:center; align-items:center; height:100vh; background:#33CCCC; margin:0;}
+.container { background:white; padding:30px; border-radius:10px; text-align:center;}
+input { width:90%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc;}
+button { width:95%; padding:10px; margin:5px 0; border:none; border-radius:5px; background:#007bff; color:white; cursor:pointer;}
+button:hover { background:#0056b3; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Login Structure</h2>
+<p id="structureName"></p>
+<form id="loginForm">
+<input type="text" id="username" placeholder="Votre Code" required><br>
+<input type="password" id="password" placeholder="Mot de Passe" required><br>
+<button type="submit">Accéder au Menu</button>
+</form>
+</div>
+
+<script>
+const structure = localStorage.getItem("structureChoisie") || "Structure";
+document.getElementById('structureName').textContent = structure.toUpperCase();
+
+const identifiants = {
+    "dgi": { user:"dgi", pass:"dgi123" },
+    "ibanda1": { user:"ibanda1", pass:"ibanda123" },
+    "ibanda2": { user:"ibanda2", pass:"ibanda223" },
+    "kadutu": { user:"kadutu", pass:"kadutu123" },
+    "bagira": { user:"bagira", pass:"bagira123" },
+    "uvira": { user:"uvira", pass:"uvira123" }
+};
+
+document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    if(identifiants[structure] && user === identifiants[structure].user && pass === identifiants[structure].pass){
+        localStorage.setItem("gestionnaire", user);
+        window.location.href = "menu.html";
+    } else { alert("Code ou mot de passe incorrect !"); }
+});
+</script>
+</body>
+</html>

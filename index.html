@@ -2,84 +2,143 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Mini Bible Web - Jude</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPI-SK Bukavu</title>
+
+<!-- Manifest pour PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008080">
+
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
-  h1 { color: #2c3e50; }
-  select { font-size: 16px; margin-bottom: 20px; }
-  p { font-size: 18px; line-height: 1.6; }
-  .verse { margin-bottom: 10px; }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #33CCCC;
+    position: relative;
+}
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #ff0000 0%, #ff0000 15%, transparent 15%, transparent 100%);
+    z-index: 0;
+}
+.star {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    background: yellow;
+    clip-path: polygon(
+        50% 0%, 61% 35%, 98% 35%, 
+        68% 57%, 79% 91%, 50% 70%, 
+        21% 91%, 32% 57%, 2% 35%, 
+        39% 35%
+    );
+    z-index: 1;
+}
+.login-container {
+    z-index: 2;
+    background-color: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    text-align: center;
+    width: 350px;
+}
+h2 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #000;
+}
+input[type="text"], input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+button {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.footer-text {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #333;
+}
 </style>
 </head>
 <body>
-<h1>Mini Bible Web - Livre de Jude</h1>
 
-<label for="bookSelect">Choisir un livre :</label>
-<select id="bookSelect">
-  <option value="jude">Jude</option>
-  <!-- Autres livres peuvent être ajoutés ici -->
-</select>
+<div class="star"></div>
 
-<label for="chapterSelect">Choisir un chapitre :</label>
-<select id="chapterSelect">
-  <option value="1">1</option>
-</select>
+<div class="login-container">
+    <h2>
+        MINISTERE DES FINANCES<br>
+        DIRECTION GENERALE DES IMPOTS<br>
+        DIRECTION PROVINCIALE DU SUD-KIVU<br>
+        DPI-SK Cristal BUKAVU FC - Acces 2024 2.0 du 17/06/2025
+    </h2>
 
-<div id="content"></div>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Votre Code" required><br>
+        <input type="password" id="password" placeholder="Mot de Passe" required><br>
+        <button type="submit">Menu</button>
+        <button type="button" onclick="alert('Abandon');">Abandon</button>
+    </form>
+
+    <div class="footer-text">
+        Bienvenue à l'application DPI-SK, BUKAVU
+    </div>
+</div>
 
 <script>
-  const bible = {
-    jude: {
-      1: [
-        "Jude, serviteur de Jésus-Christ et frère de Jacques, à ceux qui sont appelés, aimés de Dieu le Père et gardés pour Jésus-Christ :",
-        "Que la miséricorde, la paix et l’amour vous soient multipliés !",
-        "Bien-aimés, je sentais le besoin de vous écrire afin de vous exhorter à lutter pour la foi qui a été transmise aux saints une fois pour toutes.",
-        "Car certains hommes se sont glissés parmi vous, hommes méprisables, qui changent en débauche la grâce de notre Dieu et renient Jésus-Christ, notre seul Maître et Seigneur.",
-        "Je veux vous rappeler, même si vous le savez déjà, que le Seigneur, après avoir délivré le peuple du pays d’Égypte, fit périr ceux qui ne crurent pas.",
-        "Il a aussi réservé pour le jugement des ténèbres éternelles les anges qui n’ont pas gardé leur dignité, mais ont abandonné leur propre demeure.",
-        "De même, Sodome et Gomorrhe et les villes voisines, qui ont suivi leur exemple, sont livrées à la destruction, comme en témoignage de ce qui arrivera aux impies.",
-        "Ces hommes sont des nuées sans eau, des vents emportés par la tempête ; des astres errants pour qui est réservée l’obscurité éternelle.",
-        "Quant à l’archange Michel, lorsqu’il contestait le diable et disputait au sujet du corps de Moïse, il n’osa pas porter contre lui un jugement injurieux, mais dit : 'Que le Seigneur te réprime !'",
-        "Mais ces hommes, parlant mal des choses qu’ils ne connaissent pas, sont détruits par ce qu’ils connaissent naturellement, comme des bêtes irrationnelles.",
-        "Malheur à eux ! Car ils ont suivi la voie de Caïn, ont couru après le gain de Balaam et se sont perdus dans la rébellion de Coré.",
-        "Ce sont des taches dans vos agapes, se régalant eux-mêmes sans crainte, des nuages sans eau, emportés par le vent, des arbres d’automne, sans fruit, deux fois morts, déracinés;",
-        "des vagues de la mer, mugissantes, écumantes leurs propres ignominies; des étoiles errantes, pour qui l’obscurité éternelle est réservée.",
-        "C’est aussi pour eux qu’Hénok, le septième depuis Adam, a prophétisé, en disant : 'Voici, le Seigneur est venu avec ses myriades de saints.'",
-        "Pour faire comparaître tous les hommes devant lui pour les juger, et condamner tous les impies à toutes les œuvres impies qu’ils ont commises impies, et pour toutes les paroles injurieuses qu’ont proférées contre lui les pécheurs impies.'",
-        "Ce sont des murmureurs, des querelleurs, se régalant de leurs propres convoitises, et leurs lèvres disent des paroles hautaines, ils flattent les autres pour obtenir leurs intérêts.",
-        "Mais vous, bien-aimés, souvenez-vous des paroles dites auparavant par les apôtres de notre Seigneur Jésus-Christ;",
-        "ils vous disaient que dans les derniers temps il y aurait des moqueurs, marchant selon leurs convoitises impies.",
-        "Ce sont ceux qui divisent, qui suivent leurs instincts charnels, qui ne possèdent pas l’Esprit.",
-        "Mais vous, bien-aimés, construisez-vous sur votre très sainte foi, priez dans le Saint-Esprit,",
-        "gardez-vous dans l’amour de Dieu, attendant la miséricorde de notre Seigneur Jésus-Christ pour la vie éternelle.",
-        "Et ayez pitié de certains, les en retirant avec crainte;",
-        "et sauvez d’autres, les arrachant au feu, et ayez pitié avec crainte, haïssant jusqu’au vêtement souillé par la chair.",
-        "À celui qui peut vous garder de toute chute, et vous présenter irréprochables avec joie devant sa gloire,",
-        "à Dieu seul, notre Sauveur, par Jésus-Christ notre Seigneur, gloire, majesté, force et puissance, avant tous les siècles, maintenant et pour tous les siècles. Amen."
-      ]
+document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    // Identifiants
+    const comptes = [
+        {user:"admin", pass:"admin"},
+        {user:"gestionnaire1", pass:"1234"},
+        {user:"gestionnaire2", pass:"5678"}
+    ];
+
+    const valide = comptes.find(c=>c.user===user && c.pass===pass);
+    if(valide){
+        alert("Connexion réussie !");
+        localStorage.setItem("gestionnaire", user);
+        window.location.href="choix_structure.html";
+    } else {
+        alert("Code ou mot de passe incorrect !");
     }
-  };
+});
 
-  const bookSelect = document.getElementById('bookSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const contentDiv = document.getElementById('content');
-
-  function displayChapter() {
-    const book = bookSelect.value;
-    const chapter = chapterSelect.value;
-    contentDiv.innerHTML = '';
-    bible[book][chapter].forEach((verse, i) => {
-      const p = document.createElement('p');
-      p.className = 'verse';
-      p.innerHTML = '<strong>' + (i + 1) + '</strong> ' + verse;
-      contentDiv.appendChild(p);
-    });
-  }
-
-  bookSelect.addEventListener('change', displayChapter);
-  chapterSelect.addEventListener('change', displayChapter);
-
-  displayChapter();
+// Service Worker pour PWA
+if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('service-worker.js')
+    .then(()=>console.log('Service Worker enregistré !'))
+    .catch(err=>console.log('Erreur SW:', err));
+}
 </script>
 
 </body>
