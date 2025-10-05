@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Mini Bible Web - Jude</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+  h1 { color: #2c3e50; }
+  select { font-size: 16px; margin-bottom: 20px; }
+  p { font-size: 18px; line-height: 1.6; }
+  .verse { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<h1>Mini Bible Web - Livre de Jude</h1>
+
+<label for="bookSelect">Choisir un livre :</label>
+<select id="bookSelect">
+  <option value="jude">Jude</option>
+  <!-- Autres livres peuvent être ajoutés ici -->
+</select>
+
+<label for="chapterSelect">Choisir un chapitre :</label>
+<select id="chapterSelect">
+  <option value="1">1</option>
+</select>
+
+<div id="content"></div>
+
+<script>
+  const bible = {
+    jude: {
+      1: [
+        "Jude, serviteur de Jésus-Christ et frère de Jacques, à ceux qui sont appelés, aimés de Dieu le Père et gardés pour Jésus-Christ :",
+        "Que la miséricorde, la paix et l’amour vous soient multipliés !",
+        "Bien-aimés, je sentais le besoin de vous écrire afin de vous exhorter à lutter pour la foi qui a été transmise aux saints une fois pour toutes.",
+        "Car certains hommes se sont glissés parmi vous, hommes méprisables, qui changent en débauche la grâce de notre Dieu et renient Jésus-Christ, notre seul Maître et Seigneur.",
+        "Je veux vous rappeler, même si vous le savez déjà, que le Seigneur, après avoir délivré le peuple du pays d’Égypte, fit périr ceux qui ne crurent pas.",
+        "Il a aussi réservé pour le jugement des ténèbres éternelles les anges qui n’ont pas gardé leur dignité, mais ont abandonné leur propre demeure.",
+        "De même, Sodome et Gomorrhe et les villes voisines, qui ont suivi leur exemple, sont livrées à la destruction, comme en témoignage de ce qui arrivera aux impies.",
+        "Ces hommes sont des nuées sans eau, des vents emportés par la tempête ; des astres errants pour qui est réservée l’obscurité éternelle.",
+        "Quant à l’archange Michel, lorsqu’il contestait le diable et disputait au sujet du corps de Moïse, il n’osa pas porter contre lui un jugement injurieux, mais dit : 'Que le Seigneur te réprime !'",
+        "Mais ces hommes, parlant mal des choses qu’ils ne connaissent pas, sont détruits par ce qu’ils connaissent naturellement, comme des bêtes irrationnelles.",
+        "Malheur à eux ! Car ils ont suivi la voie de Caïn, ont couru après le gain de Balaam et se sont perdus dans la rébellion de Coré.",
+        "Ce sont des taches dans vos agapes, se régalant eux-mêmes sans crainte, des nuages sans eau, emportés par le vent, des arbres d’automne, sans fruit, deux fois morts, déracinés;",
+        "des vagues de la mer, mugissantes, écumantes leurs propres ignominies; des étoiles errantes, pour qui l’obscurité éternelle est réservée.",
+        "C’est aussi pour eux qu’Hénok, le septième depuis Adam, a prophétisé, en disant : 'Voici, le Seigneur est venu avec ses myriades de saints.'",
+        "Pour faire comparaître tous les hommes devant lui pour les juger, et condamner tous les impies à toutes les œuvres impies qu’ils ont commises impies, et pour toutes les paroles injurieuses qu’ont proférées contre lui les pécheurs impies.'",
+        "Ce sont des murmureurs, des querelleurs, se régalant de leurs propres convoitises, et leurs lèvres disent des paroles hautaines, ils flattent les autres pour obtenir leurs intérêts.",
+        "Mais vous, bien-aimés, souvenez-vous des paroles dites auparavant par les apôtres de notre Seigneur Jésus-Christ;",
+        "ils vous disaient que dans les derniers temps il y aurait des moqueurs, marchant selon leurs convoitises impies.",
+        "Ce sont ceux qui divisent, qui suivent leurs instincts charnels, qui ne possèdent pas l’Esprit.",
+        "Mais vous, bien-aimés, construisez-vous sur votre très sainte foi, priez dans le Saint-Esprit,",
+        "gardez-vous dans l’amour de Dieu, attendant la miséricorde de notre Seigneur Jésus-Christ pour la vie éternelle.",
+        "Et ayez pitié de certains, les en retirant avec crainte;",
+        "et sauvez d’autres, les arrachant au feu, et ayez pitié avec crainte, haïssant jusqu’au vêtement souillé par la chair.",
+        "À celui qui peut vous garder de toute chute, et vous présenter irréprochables avec joie devant sa gloire,",
+        "à Dieu seul, notre Sauveur, par Jésus-Christ notre Seigneur, gloire, majesté, force et puissance, avant tous les siècles, maintenant et pour tous les siècles. Amen."
+      ]
+    }
+  };
+
+  const bookSelect = document.getElementById('bookSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const contentDiv = document.getElementById('content');
+
+  function displayChapter() {
+    const book = bookSelect.value;
+    const chapter = chapterSelect.value;
+    contentDiv.innerHTML = '';
+    bible[book][chapter].forEach((verse, i) => {
+      const p = document.createElement('p');
+      p.className = 'verse';
+      p.innerHTML = '<strong>' + (i + 1) + '</strong> ' + verse;
+      contentDiv.appendChild(p);
+    });
+  }
+
+  bookSelect.addEventListener('change', displayChapter);
+  chapterSelect.addEventListener('change', displayChapter);
+
+  displayChapter();
+</script>
+
+</body>
+</html>
